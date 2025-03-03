@@ -14,6 +14,19 @@ struct ReceipeListView<T: RecipeListProvider>: View {
         List(recipeListProvider.recipes) { recipe in
             RecipeListItem(recipe: recipe)
         }
+        .onAppear {
+            loadRecipes()
+        }
+    }
+    
+    private func loadRecipes() {
+        Task {
+            do {
+                try await self.recipeListProvider.loadRecipes()
+            } catch {
+                print("error loading recipes: \(error)")
+            }
+        }
     }
 }
 

@@ -7,10 +7,10 @@
 import Foundation
 
 class RecipeListNetworkOperation: NetworkOperationProviding {
-    typealias DataResult = [Recipe]
+    typealias DataResult = RecipeListResponse
     
     func urlRequest(for baseUrl: URL) -> URLRequest {
-        let url = baseUrl.appendingPathComponent("recipes")
+        let url = baseUrl.appendingPathComponent("recipes.json")
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         return request

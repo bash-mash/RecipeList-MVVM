@@ -8,12 +8,19 @@
 import SwiftUI
 import SwiftData
 
+// the main contentview does not display UI, only present features' UI
 struct ContentView: View {
-    var body: some View {
-        Text("Content")
+     var networking: Networking
+    
+    init(networking: Networking) {
+        self.networking = networking
     }
-}
-
-#Preview {
-    ContentView()
+    
+    var body: some View {
+        getMainFeatureView()
+    }
+    
+    func getMainFeatureView() -> some View {
+        ReceipeListView(recipeListProvider: RecipeListViewDataModel(networking))
+    }
 }

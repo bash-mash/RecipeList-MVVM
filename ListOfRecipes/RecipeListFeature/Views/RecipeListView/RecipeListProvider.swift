@@ -8,7 +8,8 @@ import SwiftUI
 
 protocol RecipeListProvider: ObservableObject {
     var recipes: [Recipe] { get set }
-    func loadRecipes()
+    
+    func loadRecipes() async throws
 }
 
 
