@@ -10,7 +10,6 @@ import SwiftUI
 struct ReceipeListView<T: RecipeListProvider>: View {
     @StateObject var recipeListProvider: T
     
-
     var body: some View {
         List(recipeListProvider.recipes) { recipe in
             RecipeListItem(recipe: recipe)
