@@ -23,7 +23,8 @@ class AppNetworker: Networking {
         let response = try await session.data(for: request)
         // todo: check the response's code and other data
         
-        let results = try JSONDecoder().decode(T.DataResult.self, from: response.0)
+        // the operation will decide how to parse data
+        let results = try await operation.convert(response.0)
         return results
     }
 }

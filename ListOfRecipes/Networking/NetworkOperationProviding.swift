@@ -8,10 +8,10 @@
 import Foundation
 
 protocol NetworkOperationProviding {
-    associatedtype DataResult: Codable
+    associatedtype DataResult
     
     //var resultType: DataResult.Type { get }
     
     func urlRequest(for baseUrl: URL) -> URLRequest
-    func handleData(_ data: Data) async throws -> DataResult
+    func convert(_ data: Data) async throws -> DataResult
 }

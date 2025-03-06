@@ -16,7 +16,7 @@ class RecipeListNetworkOperation: NetworkOperationProviding {
         return request
     }
     
-    func handleData(_ data: Data) async throws -> DataResult {
+    func convert(_ data: Data) async throws -> DataResult {
         let decoder = JSONDecoder()
         return try decoder.decode(DataResult.self, from: data)
     }
