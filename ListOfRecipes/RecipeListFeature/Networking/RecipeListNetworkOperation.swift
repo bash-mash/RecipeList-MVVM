@@ -18,6 +18,7 @@ class RecipeListNetworkOperation: NetworkOperationProviding {
     
     func convert(_ data: Data) async throws -> DataResult {
         let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
         return try decoder.decode(DataResult.self, from: data)
     }
     
