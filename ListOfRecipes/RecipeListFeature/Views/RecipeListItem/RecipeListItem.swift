@@ -8,22 +8,35 @@
 import SwiftUI
 
 struct RecipeListItem: View, RecipeConfigurableView {
-    var recipe: Recipe
+    @State var recipe: Recipe
+    @State private var task: Task<Void, Error>?
+    @State private var image: UIImage?
     
-    init(recipe: Recipe) {
+    let imageProviding: ImageProviding
+    
+    init(recipe: Recipe, imageProviding: ImageProviding) {
         self.recipe = recipe
+        self.imageProviding = imageProviding
     }
     
     var body: some View {
         HStack {
-            Image(uiImage: UIImage.strokedCheckmark)
+            Image(uiImage: self.image ?? UIImage.strokedCheckmark)
+                .resizable()
+                .frame(width: 60, height: 60)
             Text("Name: \(recipe.name), Cuisine: \(recipe.cuisine)")
                 .font(.caption)
         }
+        .task {
+            guard let urlStr = recipe.photoUrlSmall,
+                  let url = URL(string: urlStr) else {
+                // set default image
+                self.image = nil
+                return
+            }
+            let image = try? await imageProviding.getImage(with: url)
+            self.image = image?.image
+        }
         .padding(10)
     }
-}
-
-#Preview {
-    RecipeListItem(recipe: Recipe(uuid: "", name: "Test Name", cuisine: "Test Cuisine", photoUrlLarge: nil, photoUrlSmall: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/small.jpg", sourceUrl: nil, youtubeUrl: nil))
 }

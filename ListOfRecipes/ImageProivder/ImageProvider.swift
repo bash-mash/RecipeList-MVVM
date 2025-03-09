@@ -17,13 +17,28 @@ enum cacheCapacityMB: Int {
     }
 }
 
-class ImageProvider {
+class ImageProvider: ImageProviding {
+    
     let cacheCapacity: cacheCapacityMB
     private let imageCache: NSCache<NSString, UIImage>
+    private let networking: Networking
     
-    init(cacheCapacity: cacheCapacityMB = .normal) {
+    init(cacheCapacity: cacheCapacityMB = .normal,
+         networking: Networking) {
         self.cacheCapacity = cacheCapacity
         imageCache = NSCache<NSString, UIImage>()
         imageCache.totalCostLimit = cacheCapacity.sizeInBytes()
+        self.networking = networking
+    }
+    
+    func getImage(with url: URL) async throws -> ImageData {
+        if let cachedImage = imageCache.object(forKey: url.absoluteString as NSString) {
+            return ImageData(image: cachedImage, url: url)
+        }
+        // do a network call
+        let imageData = try await self.networking.execute(operation: ImageNetworkOperation(imageUrl: url))
+        imageCache.setObject(imageData.image,
+                             forKey: url.absoluteString as NSString)
+        return imageData
     }
 }

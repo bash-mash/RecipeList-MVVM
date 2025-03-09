@@ -6,10 +6,11 @@
 //
 import SwiftUI
 
-protocol RecipeListProvider: ObservableObject {
+protocol RecipeListProviding: ObservableObject {
     var recipes: [Recipe] { get set }
+    var imageProviding: ImageProviding { get }
     
-    func loadRecipes() async throws
+    func loadRecipes() throws
 }
 
 

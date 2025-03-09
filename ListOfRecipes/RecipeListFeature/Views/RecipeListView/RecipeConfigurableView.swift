@@ -7,5 +7,5 @@
 import SwiftUI
 
 protocol RecipeConfigurableView: View {
-    init(recipe: Recipe)
+    init(recipe: Recipe, imageProviding: ImageProviding)
 }

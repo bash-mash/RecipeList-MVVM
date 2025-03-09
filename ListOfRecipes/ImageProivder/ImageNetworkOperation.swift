@@ -8,7 +8,7 @@ import UIKit
 
 struct ImageData {
     var image: UIImage
-    var url: String
+    var url: URL
 }
 
 class ImageNetworkOperation: NetworkOperationProviding {
@@ -29,6 +29,6 @@ class ImageNetworkOperation: NetworkOperationProviding {
             throw NSError(domain: "Could not download image", code: 0, userInfo: nil)
         }
         
-        return .init(image: image, url: imageUrl.absoluteString)
+        return .init(image: image, url: imageUrl)
     }
 }

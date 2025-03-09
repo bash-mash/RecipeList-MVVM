@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct ListOfRecipesApp: App {
-    let mainAppNetworking = AppNetworker()
+    @State var mainAppNetworking = AppNetworker()
     
     var body: some Scene {
         WindowGroup {

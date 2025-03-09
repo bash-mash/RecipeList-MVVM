@@ -10,7 +10,7 @@ import SwiftData
 
 // the main contentview does not display UI, only present features' UI
 struct ContentView: View {
-     var networking: Networking
+     @State var networking: Networking
     
     init(networking: Networking) {
         self.networking = networking
@@ -21,6 +21,6 @@ struct ContentView: View {
     }
     
     func getMainFeatureView() -> some View {
-        ReceipeListView(recipeListProvider: RecipeListViewDataModel(networking))
+        RecipeListView(recipeListProvider: RecipeListViewModel(networking))
     }
 }
