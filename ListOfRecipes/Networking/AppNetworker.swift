@@ -17,11 +17,11 @@ class AppNetworker: Networking {
         self.session = session
     }
     
-    /*! the NetworkOepration will provide the request (with params) and knows how to parse its data T. The responsibility of this class is only running common code for networking. I.e no features specific code should be here */
+    /*! the NetworkOepration will provide the request (with params) and knows how to parse its data T. The responsibility of this class is only running common code for networking. I.e no features' specific code should be here */
     func execute<T: NetworkOperationProviding>(operation: T) async throws -> T.DataResult {
         let request = operation.urlRequest(for: Self.baseUrl.toURL())
         let response = try await session.data(for: request)
-        // todo: check the response's code and other data
+        // todo: check the response's code
         
         // the operation will decide how to parse data
         let results = try await operation.convert(response.0)
@@ -34,5 +34,4 @@ protocol NetworkSessionProtocol {
     func data(for request: URLRequest) async throws -> (Data, URLResponse)
 }
 
-extension URLSession: NetworkSessionProtocol {
-}
+extension URLSession: NetworkSessionProtocol {}

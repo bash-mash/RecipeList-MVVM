@@ -10,6 +10,7 @@ class RecipeListNetworkOperation: NetworkOperationProviding {
     typealias DataResult = RecipeListResponse
     
     func urlRequest(for baseUrl: URL) -> URLRequest {
+        // test malformed recipes-malformed.json
         let url = baseUrl.appendingPathComponent("recipes.json")
         var request = URLRequest(url: url)
         request.httpMethod = "GET"

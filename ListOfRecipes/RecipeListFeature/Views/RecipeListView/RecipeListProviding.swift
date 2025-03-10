@@ -10,7 +10,7 @@ protocol RecipeListProviding: ObservableObject {
     var recipes: [Recipe] { get set }
     var imageProviding: ImageProviding { get }
     
-    func loadRecipes() throws
+    func loadRecipes() async throws
 }
 
 

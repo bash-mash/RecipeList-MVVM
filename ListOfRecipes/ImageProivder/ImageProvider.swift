@@ -28,6 +28,7 @@ class ImageProvider: ImageProviding {
         self.cacheCapacity = cacheCapacity
         imageCache = NSCache<NSString, UIImage>()
         imageCache.totalCostLimit = cacheCapacity.sizeInBytes()
+    
         self.networking = networking
     }
     

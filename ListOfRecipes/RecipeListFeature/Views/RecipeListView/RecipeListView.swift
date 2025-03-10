@@ -9,38 +9,48 @@ import SwiftUI
 
 struct RecipeListView<T: RecipeListProviding>: View {
     @StateObject var recipeListProvider: T
+    @State private var error: NSError?
     
     var body: some View {
         NavigationView {
-            listView()
-            .navigationTitle("Recipe List")
+            if error == nil {
+                listView()
+                    .navigationTitle("Recipe List")
+            } else {
+                Text("Could not load recipes 🥺")
+            }
         }
         .refreshable {
             loadRecipes()
         }
-        .onAppear {
+        .task {
             loadRecipes()
         }
     }
     
     private func listView() -> some View {
         List(recipeListProvider.recipes) { recipe in
-            RecipeListItem(recipe: recipe, imageProviding: recipeListProvider.imageProviding)
+            RecipeListRow(recipe: recipe, imageProviding: recipeListProvider.imageProviding)
         }
     }
     
     private func loadRecipes() {
         Task {
             do {
-                try self.recipeListProvider.loadRecipes()
-            } catch {
+                self.error = nil
+                try await self.recipeListProvider.loadRecipes()
+            } catch (let error as NSError) {
                 print("error loading recipes: \(error)")
+                await MainActor.run {
+                    self.error = error
+                }
             }
         }
     }
 }
 
 #Preview {
+    //todo: use test endpoint or mocked model
     RecipeListView(recipeListProvider: RecipeListViewModel(AppNetworker()))
 }
 

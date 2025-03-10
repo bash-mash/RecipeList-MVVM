@@ -10,7 +10,7 @@ import SwiftData
 
 // the main contentview does not display UI, only present features' UI
 struct ContentView: View {
-     @State var networking: Networking
+    @State private var networking: Networking
     
     init(networking: Networking) {
         self.networking = networking

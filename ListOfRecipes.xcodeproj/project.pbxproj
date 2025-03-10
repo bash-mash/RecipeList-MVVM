@@ -29,6 +29,26 @@
 		C7356FB02D73E74600204877 /* ListOfRecipesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ListOfRecipesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C735702D2D7E6DFA00204877 /* Exceptions for "ListOfRecipesTests" folder in "ListOfRecipesTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				recipes.json,
+			);
+			target = C7356FA52D73E74600204877 /* ListOfRecipesTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		C735702E2D7E6DFA00204877 /* Exceptions for "ListOfRecipesTests" folder in "Compile Sources" phase from "ListOfRecipesTests" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = C7356FA22D73E74600204877 /* Sources */;
+			membershipExceptions = (
+				recipes.json,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C7356F962D73E74500204877 /* ListOfRecipes */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -37,6 +57,10 @@
 		};
 		C7356FA92D73E74600204877 /* ListOfRecipesTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C735702D2D7E6DFA00204877 /* Exceptions for "ListOfRecipesTests" folder in "ListOfRecipesTests" target */,
+				C735702E2D7E6DFA00204877 /* Exceptions for "ListOfRecipesTests" folder in "Compile Sources" phase from "ListOfRecipesTests" target */,
+			);
 			path = ListOfRecipesTests;
 			sourceTree = "<group>";
 		};

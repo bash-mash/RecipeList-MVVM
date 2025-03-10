@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-struct RecipeListItem: View, RecipeConfigurableView {
-    @State var recipe: Recipe
-    @State private var task: Task<Void, Error>?
+struct RecipeListRow: View, RecipeConfigurableView {
+    @State private var recipe: Recipe
     @State private var image: UIImage?
     
     let imageProviding: ImageProviding
@@ -35,7 +34,9 @@ struct RecipeListItem: View, RecipeConfigurableView {
                 return
             }
             let image = try? await imageProviding.getImage(with: url)
-            self.image = image?.image
+            await MainActor.run {
+                self.image = image?.image
+            }
         }
         .padding(10)
     }
