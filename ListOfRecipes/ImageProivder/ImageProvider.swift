@@ -19,27 +19,42 @@ enum cacheCapacityMB: Int {
 
 class ImageProvider: ImageProviding {
     
-    let cacheCapacity: cacheCapacityMB
-    private let imageCache: NSCache<NSString, UIImage>
+    private let imageCache: ImageCache
     private let networking: Networking
     
     init(cacheCapacity: cacheCapacityMB = .normal,
          networking: Networking) {
-        self.cacheCapacity = cacheCapacity
-        imageCache = NSCache<NSString, UIImage>()
-        imageCache.totalCostLimit = cacheCapacity.sizeInBytes()
-    
+        self.imageCache = ImageCache(cacheCapacity: cacheCapacity)
         self.networking = networking
     }
     
     func getImage(with url: URL) async throws -> ImageData {
-        if let cachedImage = imageCache.object(forKey: url.absoluteString as NSString) {
+        if let cachedImage = await imageCache.getImage(with: url) {
             return ImageData(image: cachedImage, url: url)
         }
         // do a network call
         let imageData = try await self.networking.execute(operation: ImageNetworkOperation(imageUrl: url))
-        imageCache.setObject(imageData.image,
-                             forKey: url.absoluteString as NSString)
+        await imageCache.setImage(imageData.image,
+                             forKey: url.absoluteString)
         return imageData
+    }
+}
+
+private actor ImageCache {
+    let cacheCapacity: cacheCapacityMB
+    private let cache: NSCache<NSString, UIImage>
+    
+    init(cacheCapacity: cacheCapacityMB = .normal) {
+        self.cacheCapacity = cacheCapacity
+        cache = NSCache<NSString, UIImage>()
+        cache.totalCostLimit = cacheCapacity.sizeInBytes()
+    }
+    
+    func getImage(with url: URL) -> UIImage? {
+        return cache.object(forKey: url.absoluteString as NSString)
+    }
+    
+    func setImage(_ image: UIImage, forKey key: String) {
+        cache.setObject(image, forKey: key as NSString)
     }
 }
